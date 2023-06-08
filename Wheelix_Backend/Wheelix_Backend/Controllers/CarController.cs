@@ -31,6 +31,26 @@ namespace Wheelix_Backend.Controllers
 
             return Ok(car);
         }
+
+        [HttpPost("multiple")]
+        public IActionResult AddMultipleCars([FromBody] List<Car> cars) {
+            try {
+                if (cars == null || cars.Count == 0) {
+                    return BadRequest("No Cars provided");
+                }
+
+                foreach (var car in cars) {
+                    context.Car.Add(car);
+                }
+
+                context.SaveChanges();
+
+                return Ok("Cars added successfully");
+            }
+            catch (Exception ex) { 
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 
 }
