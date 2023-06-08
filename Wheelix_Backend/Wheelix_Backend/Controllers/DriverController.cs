@@ -26,6 +26,7 @@ namespace Wheelix_Backend.Controllers
             return Ok(drivers.ToList());
         }
 
+        //Dapper
         [HttpGet("{id}")]
         public async Task<ActionResult<Driver>> SearchDriver(int id)
         {
@@ -39,8 +40,8 @@ namespace Wheelix_Backend.Controllers
             return Ok(driver);
         }
 
-            //EF
-            [HttpPost]
+        //EF
+        [HttpPost]
         public async Task<ActionResult<Driver>> AddDriver(Driver driver)
         {
             context.Driver.Add(driver);
@@ -49,10 +50,27 @@ namespace Wheelix_Backend.Controllers
             return Ok(driver);
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult<Driver>> AddDriver(Driver driver) { 
-        //    var query = ""
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteById(int id) {
+            var query = "DELETE FROM Driver WHERE Id = @Id";
+            var affectedRows = await dbConnection.ExecuteAsync(query, new { Id = id });
+
+            if (affectedRows == 0)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        //EF
+        //[HttpDelete]
+        //public async Task<ActionResult> DeleteAll()
+        //{
+        //    context.Driver.RemoveRange(context.Driver);
+        //    await context.SaveChangesAsync();
+
+        //    return NoContent();
         //}
-    
     }
 }

@@ -176,14 +176,14 @@ namespace Wheelix_Backend.Controllers
         }
 
         //EF
-        [HttpDelete]
-        public async Task<ActionResult> DeleteAll()
-        {
-            context.Car.RemoveRange(context.Car);
-            await context.SaveChangesAsync();
+        //[HttpDelete]
+        //public async Task<ActionResult> DeleteAll()
+        //{
+        //    context.Car.RemoveRange(context.Car);
+        //    await context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
     }
 
     //DAPPER
