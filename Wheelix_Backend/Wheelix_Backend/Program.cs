@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Data.SqlClient;
 using Wheelix_Backend;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,9 +11,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Entity Framework
 builder.Services.AddDbContext<WheelixDBContext>(option => {
     option.UseSqlServer(builder.Configuration.GetConnectionString("WheelixDB"));
 });
+
+//Dapper
+builder.Services.AddScoped<IDbConnection>(c => new SqlConnection(builder.Configuration.GetConnectionString("WheelixDB")));
 
 var app = builder.Build();
 

@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "V6Yf0lLYUPbeGvyTQ1NJA2yBs0g+vE3u88MrsmZASZG24tlpGRKFArXiYDfzFpwjjmx8TvvlGLgv1TgDcmGl+w==",
+  "dgSpecHash": "4bPABPDQeCD1dWLXkfjPi2VtRYtPgV6/0UcQMLTXNaJM79oUqF2C3KEQQdB7lsZmiHtcDi3+xeaahwKbIwBTxA==",
   "success": true,
   "projectFilePath": "D:\\Github\\Wheelix_Backend\\Wheelix_Backend\\Wheelix_Backend\\Wheelix_Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\joaoh\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\joaoh\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\joaoh\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\joaoh\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\joaoh\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\joaoh\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
