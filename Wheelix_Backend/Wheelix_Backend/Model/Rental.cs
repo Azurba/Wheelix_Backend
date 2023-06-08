@@ -8,7 +8,7 @@ namespace Wheelix_Backend.Model
         public int Id { get; set; }
         public Car car { get; set; }
         public Driver driver { get; set; }
-        public List<string> additionals { get; set; }
+        public List<Additionals> additionals { get; set; }
         public DateTime rentalDate { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
