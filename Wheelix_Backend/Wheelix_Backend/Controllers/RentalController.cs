@@ -65,6 +65,14 @@ namespace Wheelix_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Check if the car is already used in another rental
+            bool isCarInUse = await context.Rental.AnyAsync(r => r.carId == rental.carId);
+            if (isCarInUse)
+            {
+                ModelState.AddModelError("carId", "This car is unavailable. Already in use.");
+                return BadRequest(ModelState);
+            }
+
             // Since additionalsId is a string of Ids, separated by comma we need to split the additionalsId string into individual IDs
             var additionalsIds = rental.additionalsId.Split(',');
 
@@ -111,9 +119,5 @@ namespace Wheelix_Backend.Controllers
 
             return NoContent();
         }
-
-
-
-
     }
 }
