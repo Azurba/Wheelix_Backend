@@ -32,17 +32,24 @@ namespace Wheelix_Backend.Controllers
             return Ok(rentals.ToList());
         }
 
-        //EF
-        //[HttpPost]
-        //public async Task<ActionResult<Rental>> addRental(Rental rental) {
-        //    context.Rental.Add(rental);
-        //    await context.SaveChangesAsync();
-        //    return Ok(rental);
-        //}
+        //Dapper
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Rental>> SearchRental(int id) {
+            var rental = await dbConnection.QuerySingleOrDefaultAsync<Rental>("SELECT * FROM Rental WHERE Id = @Id", new { @Id = id });
+            if (rental == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(rental);
+        }
+
+        
+        //EF and LINQ
         [HttpPost]
         public async Task<ActionResult<Rental>> AddRental(Rental rental)
         {
-            // Check if the car with the specified ID exists
+            // Check if the car with the specified ID exists before allow the rental to be added
             bool isCarExists = await context.Car.AnyAsync(c => c.Id == rental.carId);
             if (!isCarExists)
             {
@@ -50,7 +57,7 @@ namespace Wheelix_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Check if the driver with the specified ID exists
+            // Check if the driver with the specified ID exists before allow the rental to be added
             bool isDriverExists = await context.Driver.AnyAsync(d => d.Id == rental.driverId);
             if (!isDriverExists)
             {
@@ -58,10 +65,10 @@ namespace Wheelix_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Split the additionalsId string into individual IDs
+            // Since additionalsId is a string of Ids, separated by comma we need to split the additionalsId string into individual IDs
             var additionalsIds = rental.additionalsId.Split(',');
 
-            // Check if all additionals with the specified IDs exist
+            // Check if all additionals with the specified IDs exist before allow the rental to be added
             List<int> nonExistingAdditionalsIds = context.Additionals
                 .Where(a => additionalsIds.Contains(a.Id.ToString()))
                 .Select(a => a.Id)
@@ -75,10 +82,36 @@ namespace Wheelix_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
+            //Add the rental only after all the checks have passed
             context.Rental.Add(rental);
             await context.SaveChangesAsync();
             return Ok(rental);
         }
+
+        //Dapper
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteById(int id){
+            var query = "DELETE FROM Rental WHERE Id = @Id";
+            var affectedRow = await dbConnection.ExecuteAsync(query, new { Id = id });
+
+            if (affectedRow == 0)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        //EF
+        [HttpDelete]
+        public async Task<ActionResult> DeleteAll()
+        {
+            context.Rental.RemoveRange(context.Rental);
+            await context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
 
 
 
