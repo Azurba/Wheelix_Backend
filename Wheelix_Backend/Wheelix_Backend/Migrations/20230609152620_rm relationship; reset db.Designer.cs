@@ -12,8 +12,8 @@ using Wheelix_Backend;
 namespace Wheelix_Backend.Migrations
 {
     [DbContext(typeof(WheelixDBContext))]
-    [Migration("20230608155652_initial migration")]
-    partial class initialmigration
+    [Migration("20230609152620_rm relationship; reset db")]
+    partial class rmrelationshipresetdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,28 +25,6 @@ namespace Wheelix_Backend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Wheelix_Backend.Model.Additionals", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RentalId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RentalId");
-
-                    b.ToTable("Additionals");
-                });
-
             modelBuilder.Entity("Wheelix_Backend.Model.Car", b =>
                 {
                     b.Property<int>("Id")
@@ -55,7 +33,7 @@ namespace Wheelix_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BadSupport")
+                    b.Property<int>("BagSupport")
                         .HasColumnType("int");
 
                     b.Property<string>("Color")
@@ -84,17 +62,11 @@ namespace Wheelix_Backend.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("RentalId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RentalId")
-                        .IsUnique();
 
                     b.ToTable("Car");
                 });
@@ -130,13 +102,7 @@ namespace Wheelix_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RentalId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RentalId")
-                        .IsUnique();
 
                     b.ToTable("Driver");
                 });
@@ -148,6 +114,16 @@ namespace Wheelix_Backend.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("additionalsId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("carId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("driverId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("endDate")
                         .HasColumnType("datetime2");
@@ -168,50 +144,6 @@ namespace Wheelix_Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rental");
-                });
-
-            modelBuilder.Entity("Wheelix_Backend.Model.Additionals", b =>
-                {
-                    b.HasOne("Wheelix_Backend.Model.Rental", "Rental")
-                        .WithMany("additionals")
-                        .HasForeignKey("RentalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Rental");
-                });
-
-            modelBuilder.Entity("Wheelix_Backend.Model.Car", b =>
-                {
-                    b.HasOne("Wheelix_Backend.Model.Rental", "Rental")
-                        .WithOne("car")
-                        .HasForeignKey("Wheelix_Backend.Model.Car", "RentalId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Rental");
-                });
-
-            modelBuilder.Entity("Wheelix_Backend.Model.Driver", b =>
-                {
-                    b.HasOne("Wheelix_Backend.Model.Rental", "Rental")
-                        .WithOne("driver")
-                        .HasForeignKey("Wheelix_Backend.Model.Driver", "RentalId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Rental");
-                });
-
-            modelBuilder.Entity("Wheelix_Backend.Model.Rental", b =>
-                {
-                    b.Navigation("additionals");
-
-                    b.Navigation("car")
-                        .IsRequired();
-
-                    b.Navigation("driver")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

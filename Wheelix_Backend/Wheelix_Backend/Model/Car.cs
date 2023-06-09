@@ -16,15 +16,15 @@ namespace Wheelix_Backend.Model
         [Column(TypeName = "decimal(10,2)")] // Specify the store type as decimal with precision 10 and scale 2
         public decimal Price { get; set; }
         public string Image { get; set; }
-        public int? RentalId { get; set; } // Foreign key to Rental
+        //public int? RentalId { get; set; } // Foreign key to Rental
 
-        public Rental? Rental { get; set; } // Navigation property
+        //public Rental? Rental { get; set; } // Navigation property
 
-        public Car()
-        {
-            RentalId = null;
-            Rental = null;
-        }
+        //public Car()
+        //{
+        //    RentalId = null;
+        //    Rental = null;
+        //}
 
 
     }

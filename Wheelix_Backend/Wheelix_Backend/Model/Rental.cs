@@ -6,9 +6,9 @@ namespace Wheelix_Backend.Model
     public class Rental
     {
         public int Id { get; set; }
-        public Car car { get; set; }
-        public Driver driver { get; set; }
-        public List<Additionals> additionals { get; set; }
+        public int carId { get; set; }
+        public int driverId { get; set; }
+        public string additionalsId { get; set; }
         public DateTime rentalDate { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
