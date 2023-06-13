@@ -14,6 +14,8 @@ namespace Wheelix_Backend
 
         public DbSet<Additionals> Additionals { get; set; }
 
+        public DbSet<IPStackAPI> IPStackAPI { get; set; }
+
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    modelBuilder.Entity<Rental>()
