@@ -23,6 +23,8 @@ namespace Wheelix_Backend.Model
         public string carName { get; set; }
         public string carType { get; set; }
         public string driverName { get; set; }
+        public string driverPhone { get; set; }
+        public string driverEmail { get; set; }
         public string additionals { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
