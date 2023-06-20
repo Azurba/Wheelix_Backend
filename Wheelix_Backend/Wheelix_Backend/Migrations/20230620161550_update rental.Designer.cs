@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wheelix_Backend;
 
@@ -11,9 +12,11 @@ using Wheelix_Backend;
 namespace Wheelix_Backend.Migrations
 {
     [DbContext(typeof(WheelixDBContext))]
-    partial class WheelixDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230620161550_update rental")]
+    partial class updaterental
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,10 +192,6 @@ namespace Wheelix_Backend.Migrations
 
                     b.Property<decimal>("totalCost")
                         .HasColumnType("decimal(10,2)");
-
-                    b.Property<string>("trackingCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

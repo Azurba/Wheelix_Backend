@@ -44,51 +44,69 @@ namespace Wheelix_Backend.Controllers
             return Ok(rental);
         }
 
-        
+        // Dapper
+        [HttpGet("track/{trackingCode}")]
+        public async Task<ActionResult<Rental>> SearchTrackCode(string trackingCode)
+        {
+            var rental = await dbConnection.QuerySingleOrDefaultAsync<Rental>(
+                "SELECT * FROM Rental WHERE trackingCode = @trackingCode",
+                new { trackingCode }
+            );
+
+            if (rental == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(rental);
+        }
+
+
+
         //EF and LINQ
         [HttpPost]
         public async Task<ActionResult<Rental>> AddRental(Rental rental)
         {
             // Check if the car with the specified ID exists before allow the rental to be added
-            bool isCarExists = await context.Car.AnyAsync(c => c.Id == rental.carId);
-            if (!isCarExists)
-            {
-                ModelState.AddModelError("carId", "Car with the specified ID does not exist.");
-                return BadRequest(ModelState);
-            }
+            //bool isCarExists = await context.Car.AnyAsync(c => c.Id == rental.carId);
+            //if (!isCarExists)
+            //{
+            //    ModelState.AddModelError("carId", "Car with the specified ID does not exist.");
+            //    return BadRequest(ModelState);
+            //}
 
             // Check if the driver with the specified ID exists before allow the rental to be added
-            bool isDriverExists = await context.Driver.AnyAsync(d => d.Id == rental.driverId);
-            if (!isDriverExists)
-            {
-                ModelState.AddModelError("driverId", "Driver with the specified ID does not exist.");
-                return BadRequest(ModelState);
-            }
+            //bool isDriverExists = await context.Driver.AnyAsync(d => d.Id == rental.driverId);
+            //if (!isDriverExists)
+            //{
+            //    ModelState.AddModelError("driverId", "Driver with the specified ID does not exist.");
+            //    return BadRequest(ModelState);
+            //}
 
             // Check if the car is already used in another rental
-            bool isCarInUse = await context.Rental.AnyAsync(r => r.carId == rental.carId);
-            if (isCarInUse)
-            {
-                ModelState.AddModelError("carId", "This car is unavailable. Already in use.");
-                return BadRequest(ModelState);
-            }
+            //bool isCarInUse = await context.Rental.AnyAsync(r => r.carId == rental.carId);
+            //if (isCarInUse)
+            //{
+            //    ModelState.AddModelError("carId", "This car is unavailable. Already in use.");
+            //    return BadRequest(ModelState);
+            //}
 
             // Since additionalsId is a string of Ids, separated by comma we need to split the additionalsId string into individual IDs
-            var additionalsIds = rental.additionalsId.Split(',');
+            //var additionalsIds = rental.additionalsId.Split(',');
 
             // Check if all additionals with the specified IDs exist before allow the rental to be added
-            List<int> nonExistingAdditionalsIds = context.Additionals
-                .Where(a => additionalsIds.Contains(a.Id.ToString()))
-                .Select(a => a.Id)
-                .ToList()
-                .Except(additionalsIds.Select(int.Parse))
-                .ToList();
+            //List<int> nonExistingAdditionalsIds = context.Additionals
+            //    .Where(a => additionalsIds.Contains(a.Id.ToString()))
+            //    .Select(a => a.Id)
+            //    .ToList()
+            //    .Except(additionalsIds.Select(int.Parse))
+            //    .ToList();
 
-            if (nonExistingAdditionalsIds.Any())
-            {
-                ModelState.AddModelError("additionalsId", $"Additionals with the following IDs do not exist: {string.Join(", ", nonExistingAdditionalsIds)}");
-                return BadRequest(ModelState);
-            }
+            //if (nonExistingAdditionalsIds.Any())
+            //{
+            //    ModelState.AddModelError("additionalsId", $"Additionals with the following IDs do not exist: {string.Join(", ", nonExistingAdditionalsIds)}");
+            //    return BadRequest(ModelState);
+            //}
 
             //Add the rental only after all the checks have passed
             context.Rental.Add(rental);
