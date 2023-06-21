@@ -27,14 +27,16 @@ namespace Wheelix_Backend.Controllers
 
         //Dapper
         [HttpGet]
-        public async Task<ActionResult<List<Rental>>> getAllRentals() {
+        public async Task<ActionResult<List<Rental>>> getAllRentals()
+        {
             var rentals = await dbConnection.QueryAsync<Rental>("SELECT * FROM Rental");
             return Ok(rentals.ToList());
         }
 
         //Dapper
         [HttpGet("{id}")]
-        public async Task<ActionResult<Rental>> SearchRental(int id) {
+        public async Task<ActionResult<Rental>> SearchRental(int id)
+        {
             var rental = await dbConnection.QuerySingleOrDefaultAsync<Rental>("SELECT * FROM Rental WHERE Id = @Id", new { @Id = id });
             if (rental == null)
             {
@@ -115,18 +117,33 @@ namespace Wheelix_Backend.Controllers
         }
 
         //Dapper
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteById(int id){
-            var query = "DELETE FROM Rental WHERE Id = @Id";
-            var affectedRow = await dbConnection.ExecuteAsync(query, new { Id = id });
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> DeleteById(int id){
+        //    var query = "DELETE FROM Rental WHERE Id = @Id";
+        //    var affectedRow = await dbConnection.ExecuteAsync(query, new { Id = id });
 
-            if (affectedRow == 0)
+        //    if (affectedRow == 0)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return NoContent();
+        //}
+
+        [HttpDelete("{trackingCode}")]
+        public async Task<ActionResult> DeleteByTrackingCode(string trackingCode)
+        {
+            var query = "DELETE FROM Rental WHERE trackingCode = @trackingCode";
+            var affectedRows = await dbConnection.ExecuteAsync(query, new { trackingCode });
+
+            if (affectedRows == 0)
             {
                 return NotFound();
             }
 
             return NoContent();
         }
+
 
         //EF
         //[HttpDelete]
@@ -137,5 +154,27 @@ namespace Wheelix_Backend.Controllers
 
         //    return NoContent();
         //}
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login(RentalLoginRequest request)
+        {
+            var rental = await dbConnection.QuerySingleOrDefaultAsync<Rental>(
+                "SELECT * FROM Rental WHERE trackingCode = @trackingCode AND driverEmail = @driverEmail",
+                new { trackingCode = request.TrackingCode, driverEmail = request.Email }
+            );
+
+            if (rental != null)
+            {
+                // Rental matches, perform desired logic
+                return Ok(new { message = "Login successful" });
+            }
+            else
+            {
+                // Rental does not match
+                return BadRequest(new { message = "Invalid tracking code or email" });
+
+
+            }
+        }
     }
 }
