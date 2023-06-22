@@ -12,8 +12,8 @@ using Wheelix_Backend;
 namespace Wheelix_Backend.Migrations
 {
     [DbContext(typeof(WheelixDBContext))]
-    [Migration("20230609152746_add additionals")]
-    partial class addadditionals
+    [Migration("20230622150941_date date")]
+    partial class datedate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,13 @@ namespace Wheelix_Backend.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("price")
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
 
@@ -124,6 +131,23 @@ namespace Wheelix_Backend.Migrations
                     b.ToTable("Driver");
                 });
 
+            modelBuilder.Entity("Wheelix_Backend.Model.IPStackAPI", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("APIKey")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("IPStackAPI");
+                });
+
             modelBuilder.Entity("Wheelix_Backend.Model.Rental", b =>
                 {
                     b.Property<int>("Id")
@@ -132,31 +156,54 @@ namespace Wheelix_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("additionalsId")
+                    b.Property<string>("additionals")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("carId")
-                        .HasColumnType("int");
+                    b.Property<string>("carName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("driverId")
-                        .HasColumnType("int");
+                    b.Property<string>("carType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("driverEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("driverName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("driverPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("endDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("payment")
+                    b.Property<string>("locationAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("rentalDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("locationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("payment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("startDate")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("totalCost")
                         .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("trackingCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

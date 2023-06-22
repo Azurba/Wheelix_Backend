@@ -1,16 +1,30 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Wheelix_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class rmrelationshipresetdb : Migration
+    public partial class stringdate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Additionals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(10,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Additionals", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Car",
                 columns: table => new
@@ -51,17 +65,35 @@ namespace Wheelix_Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "IPStackAPI",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    APIKey = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IPStackAPI", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Rental",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    carId = table.Column<int>(type: "int", nullable: false),
-                    driverId = table.Column<int>(type: "int", nullable: false),
-                    additionalsId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    rentalDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    startDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    endDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    trackingCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    locationName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    locationAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    carName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    carType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    driverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    driverPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    driverEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    additionals = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    startDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    endDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     totalCost = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     payment = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -75,10 +107,16 @@ namespace Wheelix_Backend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Additionals");
+
+            migrationBuilder.DropTable(
                 name: "Car");
 
             migrationBuilder.DropTable(
                 name: "Driver");
+
+            migrationBuilder.DropTable(
+                name: "IPStackAPI");
 
             migrationBuilder.DropTable(
                 name: "Rental");
